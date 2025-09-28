@@ -29,8 +29,6 @@ const nextConfig: NextConfig = {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
   },
 
-  // Output: 'standalone' untuk deployment Vercel/self-host
-  output: 'standalone',
-};
+ };
 
 export default nextConfig;

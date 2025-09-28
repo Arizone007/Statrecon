@@ -1,25 +1,22 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';  // Tailwind base (pastikan ada)
+import './globals.css';  // Tailwind + base styles
 
-// Font setup: Inter untuk body text (Indonesian-friendly, sans-serif)
+// Font setup: Inter untuk clean typography
 const inter = Inter({
-  subsets: ['latin'],  // Latin untuk ID locale
-  variable: '--font-inter',  // CSS variable untuk className
-  display: 'swap',  // Swap font async—hindari FOIT (flash of invisible text)
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',  // Async load tanpa block
 });
 
-// Metadata global: Fix hydration dengan explicit title/description (Indonesian)
+// Metadata: Handle <head> content secara otomatis (no manual <head> needed)
 export const metadata: Metadata = {
   title: {
     default: 'StatRecon - Platform Pendidikan Statistik',
-    template: '%s | StatRecon',  // Untuk sub-pages, e.g., "Materi | StatRecon"
+    template: '%s | StatRecon',
   },
   description: 'Platform materi statistik, tools analisis data, dan konsultasi untuk mahasiswa S1-S3 di Indonesia.',
-  metadataBase: new URL('https://statrecon.vercel.app'),  // Atau domain custom nanti
-  alternates: {
-    canonical: '/',  // SEO canonical
-  },
+  metadataBase: new URL('https://statrecon.vercel.app'),
   authors: [{ name: 'Tim StatRecon' }],
   keywords: ['statistik', 'analisis data', 'pendidikan', 'mahasiswa', 'Next.js'],
   openGraph: {
@@ -27,57 +24,28 @@ export const metadata: Metadata = {
     description: 'Belajar statistik dengan mudah dan interaktif.',
     url: 'https://statrecon.vercel.app',
     siteName: 'StatRecon',
-    images: [
-      {
-        url: '/og-image.png',  // Tambah image di public/ nanti (placeholder)
-        width: 1200,
-        height: 630,
-        alt: 'StatRecon Logo',
-      },
-    ],
-    locale: 'id_ID',  // Indonesian locale untuk OG
+    locale: 'id_ID',
     type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'StatRecon' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'StatRecon',
-    description: 'Platform statistik Indonesia.',
     images: ['/og-image.png'],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: 'your-google-site-verification',  // Tambah nanti jika Google Search Console
-  },
-  icons: {
-    icon: '/favicon.ico',  // Tambah di public/
-  },
+  robots: { index: true, follow: true },
+  icons: { icon: '/favicon.ico' },
 };
 
-// Root layout component
+// Root layout: Compact JSX untuk hindari whitespace nodes
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id">  {/* Locale Indonesian—konsisten dengan metadata */}
-      <head>
-        {/* Tambah jika perlu: <link rel="preconnect" href="https://fonts.googleapis.com" /> untuk font faster */}
-      </head>
-      <body
-        className={`${inter.variable} font-inter antialiased`}  // Gunakan CSS variable + fallback class; no suppress needed
-        suppressHydrationWarning={false}  // Hilangkan atau set false—fix root cause
-      >
+    <html lang="id" suppressHydrationWarning>
+      <body className={`${inter.variable} font-inter antialiased bg-gray-50 min-h-screen`}>
         {children}
       </body>
     </html>
